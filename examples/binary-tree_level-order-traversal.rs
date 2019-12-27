@@ -16,6 +16,8 @@ impl TreeNode {
     }
 }
 
+struct Solution {}
+
 use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
@@ -28,45 +30,42 @@ impl Solution {
                 return result;
             }
             Some(n) => {
-                let mut current_level = Vec::new();
-
-                {
-                    let inner = n.borrow();
-                    current_level.push(inner.val);
-                }
-
-                result.push(current_level);
-
-                queue.push_back(n.clone());
+                queue.push_back(n);
             }
         }
 
         loop {
-            let node = match queue.pop_front() {
-                None => break,
-                Some(n) => n,
-            };
+            if queue.is_empty() {
+                break;
+            }
 
-            let inner = node.borrow();
+            let mut queue_size = queue.len();
             let mut current_level = Vec::new();
 
-            if let Some(n) = &inner.left {
-                {
-                    let borrowed = n.borrow();
-                    current_level.push(borrowed.val);
+            loop {
+                if queue_size <= 0 {
+                    break;
                 }
 
-                queue.push_back(n.clone());
-            };
+                let node = match queue.pop_front() {
+                    None => break,
+                    Some(n) => n,
+                };
 
-            if let Some(n) = &inner.right {
-                {
-                    let borrowed = n.borrow();
-                    current_level.push(borrowed.val);
-                }
+                let inner = node.borrow();
 
-                queue.push_back(n.clone());
-            };
+                if let Some(n) = &inner.left {
+                    queue.push_back((*n).clone());
+                };
+
+                if let Some(n) = &inner.right {
+                    queue.push_back((*n).clone());
+                };
+
+                current_level.push(inner.val);
+
+                queue_size -= 1;
+            }
 
             if !current_level.is_empty() {
                 result.push(current_level);
@@ -76,3 +75,5 @@ impl Solution {
         result
     }
 }
+
+fn main() {}
