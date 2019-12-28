@@ -2,16 +2,15 @@ struct Solution {}
 impl Solution {
     pub fn roman_to_int(s: String) -> i32 {
         let mut result: i32 = 0;
-        let word_iter = s.split("");
-        let words: Vec<&str> = word_iter.clone().collect();
+        let word_iter = s.chars();
+        let words = word_iter.clone().collect::<Vec<char>>();
 
         for (i, v) in word_iter.enumerate() {
             let next = words.get(i + 1);
             match v {
-                "" => continue,
-                "I" => {
+                'I' => {
                     if let Some(v) = next {
-                        if *v == "V" || *v == "X" {
+                        if *v == 'V' || *v == 'X' {
                             result -= 1;
                             continue;
                         }
@@ -19,12 +18,12 @@ impl Solution {
 
                     result += 1;
                 }
-                "V" => {
+                'V' => {
                     result += 5;
                 }
-                "X" => {
+                'X' => {
                     if let Some(v) = next {
-                        if *v == "L" || *v == "C" {
+                        if *v == 'L' || *v == 'C' {
                             result -= 10;
                             continue;
                         }
@@ -32,12 +31,12 @@ impl Solution {
 
                     result += 10;
                 }
-                "L" => {
+                'L' => {
                     result += 50;
                 }
-                "C" => {
+                'C' => {
                     if let Some(v) = next {
-                        if *v == "D" || *v == "M" {
+                        if *v == 'D' || *v == 'M' {
                             result -= 100;
                             continue;
                         }
@@ -45,10 +44,10 @@ impl Solution {
 
                     result += 100;
                 }
-                "D" => {
+                'D' => {
                     result += 500;
                 }
-                "M" => {
+                'M' => {
                     result += 1000;
                 }
                 _ => unreachable!(),
