@@ -28,3 +28,5 @@ impl Solution {
         result
     }
 }
+
+fn main() {}

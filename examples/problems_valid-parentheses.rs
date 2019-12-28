@@ -42,3 +42,5 @@ impl Solution {
         stack.is_empty()
     }
 }
+
+fn main() {}

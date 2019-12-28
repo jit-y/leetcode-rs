@@ -23,3 +23,5 @@ impl Solution {
         num == palindromed || num == palindromed / 10
     }
 }
+
+fn main() {}
