@@ -3,47 +3,34 @@ impl Solution {
     pub fn solve(board: &mut Vec<Vec<char>>) {
         fn dfs(
             board: &mut Vec<Vec<char>>,
-            visited: &mut Vec<Vec<bool>>,
             x: usize,
             y: usize,
             row_len: usize,
             col_len: usize,
         ) -> bool {
-            if visited[x][y] {
-                return true;
-            }
-
-            if x <= 0 || x >= row_len - 1 || y <= 0 || y >= row_len - 1 {
+            if board[x][y] == 'O' && (x <= 0 || x >= row_len - 1 || y <= 0 || y >= col_len - 1) {
                 return false;
             }
 
-            visited[x][y] = true;
-            let mut up = true;
-            let mut right = true;
-            let mut down = true;
-            let mut left = true;
+            let is_x = board[x][y] == 'X';
+            board[x][y] = 'X';
 
-            if board[x][y - 1] != 'X' {
-                up = dfs(board, visited, x, y - 1, row_len, col_len);
+            if (board[x][y - 1] == 'X' || dfs(board, x, y - 1, row_len, col_len))
+                && (board[x + 1][y] == 'X' || dfs(board, x + 1, y, row_len, col_len))
+                && (board[x][y + 1] == 'X' || dfs(board, x, y + 1, row_len, col_len))
+                && (board[x - 1][y] == 'X' || dfs(board, x - 1, y, row_len, col_len))
+            {
+                if !is_x {
+                    board[x][y] = 'O';
+                }
+                return true;
             }
 
-            if board[x + 1][y] != 'X' {
-                right = dfs(board, visited, x + 1, y, row_len, col_len);
+            if !is_x {
+                board[x][y] = 'O';
             }
 
-            if board[x][y + 1] != 'X' {
-                down = dfs(board, visited, x, y + 1, row_len, col_len);
-            }
-
-            if board[x - 1][y] != 'X' {
-                left = dfs(board, visited, x - 1, y, row_len, col_len);
-            }
-
-            if up && right && down && left {
-                board[x][y] = 'X';
-            }
-
-            true
+            false
         }
 
         if board.is_empty() {
@@ -52,15 +39,20 @@ impl Solution {
 
         let row_len = board.len();
         let col_len = board[0].len();
-        let mut visited = vec![vec![false; col_len]; row_len];
         let mut board = board;
 
-        for x in 0..row_len {
-            for y in 0..col_len {
-                if board[x][y] == 'O' {
-                    if dfs(&mut board, &mut visited, x, y, row_len, col_len) {
-                        board[x][y] = 'X';
-                    }
+        for x in 1..row_len {
+            for y in 1..col_len {
+                if board[x][y] == 'X' {
+                    continue;
+                }
+
+                if board[x - 1][y] == 'O' && board[x][y - 1] == 'O' {
+                    continue;
+                }
+
+                if dfs(&mut board, x, y, row_len, col_len) {
+                    board[x][y] = 'X';
                 }
             }
         }
