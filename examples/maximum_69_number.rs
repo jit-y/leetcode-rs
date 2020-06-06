@@ -3,13 +3,13 @@ impl Solution {
     pub fn maximum69_number(num: i32) -> i32 {
         let mut n = num;
         let mut digit_num = 1;
-        let mut target = None;
+        let mut target = 0;
 
         while n > 0 {
             let c = n % 10;
 
             if c == 6 {
-                target = Some(digit_num);
+                target = digit_num;
             }
 
             digit_num *= 10;
@@ -17,9 +17,7 @@ impl Solution {
         }
 
         let mut result = num;
-        if let Some(t) = target {
-            result += t * 3;
-        }
+        result += target * 3;
 
         result
     }
