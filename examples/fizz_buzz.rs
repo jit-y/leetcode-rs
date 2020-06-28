@@ -1,28 +1,19 @@
 struct Solution {}
 impl Solution {
     pub fn fizz_buzz(n: i32) -> Vec<String> {
-        let mut result = vec![];
-
-        for v in 1..=n {
-            if v % 15 == 0 {
-                result.push("FizzBuzz".to_string());
-                continue;
-            }
-
-            if v % 3 == 0 {
-                result.push("Fizz".to_string());
-                continue;
-            }
-
-            if v % 5 == 0 {
-                result.push("Buzz".to_string());
-                continue;
-            }
-
-            result.push(v.to_string())
-        }
-
-        result
+        (1..=n)
+            .map(|v| {
+                if v % 15 == 0 {
+                    "FizzBuzz".to_string()
+                } else if v % 3 == 0 {
+                    "Fizz".to_string()
+                } else if v % 5 == 0 {
+                    "Buzz".to_string()
+                } else {
+                    v.to_string()
+                }
+            })
+            .collect::<Vec<String>>()
     }
 }
 
