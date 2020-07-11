@@ -8,27 +8,26 @@ impl Solution {
             map.insert(el, i);
         }
 
-        let mut result: HashMap<usize, Vec<String>> = HashMap::new();
+        let mut result = vec![];
         let mut min_idx = 10000;
 
         for (i, el) in list2.into_iter().enumerate() {
             if let Some(j) = map.get(&el) {
-                min_idx = std::cmp::min(min_idx, i + j);
-                match result.get_mut(&(i + j)) {
-                    Some(arr) => {
-                        arr.push(el);
-                    }
-                    None => {
-                        let mut n = vec![];
-                        n.push(el);
+                if min_idx > i + j {
+                    result.clear();
+                    result.push(el);
+                    min_idx = i + j;
 
-                        result.insert(i + j, n);
-                    }
+                    continue;
+                }
+
+                if min_idx == i + j {
+                    result.push(el);
                 }
             }
         }
 
-        result.remove(&min_idx).unwrap_or(vec![])
+        result
     }
 }
 
