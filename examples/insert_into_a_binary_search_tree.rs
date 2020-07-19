@@ -28,17 +28,9 @@ impl Solution {
                 Some(n) => {
                     let mut b = n.borrow_mut();
                     if val < b.val {
-                        if b.left.is_none() {
-                            b.left = Some(Rc::new(RefCell::new(TreeNode::new(val))));
-                        } else {
-                            insert_into(&mut b.left, val);
-                        }
+                        insert_into(&mut b.left, val);
                     } else {
-                        if b.right.is_none() {
-                            b.right = Some(Rc::new(RefCell::new(TreeNode::new(val))));
-                        } else {
-                            insert_into(&mut b.right, val);
-                        }
+                        insert_into(&mut b.right, val);
                     }
                 }
                 None => *root = Some(Rc::new(RefCell::new(TreeNode::new(val)))),
