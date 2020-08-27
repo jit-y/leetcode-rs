@@ -25,7 +25,7 @@ impl Solution {
     }
 
     pub fn score_of_parentheses_2(s: String) -> i32 {
-        fn divide_and_conquer(s: Vec<char>, from: usize, to: usize) -> i32 {
+        fn divide_and_conquer(s: &[char], from: usize, to: usize) -> i32 {
             let mut result = 0;
             let mut balance = 0;
             let mut from = from;
@@ -49,7 +49,7 @@ impl Solution {
                 if cur - from == 1 {
                     result += 1;
                 } else {
-                    result += 2 * divide_and_conquer(s.clone(), from + 1, cur);
+                    result += 2 * divide_and_conquer(s, from + 1, cur);
                 }
 
                 from = cur + 1;
@@ -61,7 +61,7 @@ impl Solution {
 
         let s: Vec<char> = s.chars().collect();
         let l = s.len();
-        divide_and_conquer(s, 0, l)
+        divide_and_conquer(&s, 0, l)
     }
 }
 
